@@ -1,12 +1,15 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-const { DB_HOST, DB_DIALECT, DB_NAME, DB_USER_NAME, DB_PASSWORD } = process.env;
+const { HERPKU_DB_URL } = process.env;
 
-const db = new Sequelize(DB_NAME, DB_USER_NAME, DB_PASSWORD, {
-    host: DB_HOST,
-    dialect: DB_DIALECT,
-    logging: console.log,
+const db = new Sequelize(HERPKU_DB_URL, {
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false,
+        },
+    },
 });
 
 module.exports = db;
